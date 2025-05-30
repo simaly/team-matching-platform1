@@ -4,7 +4,7 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const API_BASE = 'https://team-matching-backend.onrender.com'
+const API_BASE = 'https://team-matching-backend1.onrender.com'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
@@ -45,11 +45,18 @@ function MainPage() {
   }
 
   const handleSubmit = async () => {
+    console.log("Yeni proje gönderiliyor:", {
+      title,
+      description,
+      creator_id: creatorId,
+      category
+    })
+
     await axios.post(`${API_BASE}/projects`, {
       title,
       description,
       creator_id: creatorId,
-      category,
+      category
     })
     setTitle('')
     setDescription('')
@@ -68,6 +75,10 @@ function MainPage() {
       p.category &&
       p.category.toLowerCase().includes(userInterest.toLowerCase())
   )
+
+  const filteredProjects = selectedCategory
+    ? projects.filter((p) => p.category === selectedCategory)
+    : projects
 
   return (
     <div>
@@ -93,7 +104,6 @@ function MainPage() {
                 className="project-card"
                 key={p.id}
                 onClick={() => navigate(`/projects/${p.id}`)}
-                style={{ cursor: 'pointer' }}
               >
                 <h3>{p.title} <span style={{ color: '#aaa' }}>({p.category})</span></h3>
                 <p>{p.description}</p>
@@ -144,19 +154,16 @@ function MainPage() {
       </select>
 
       <h2>Projects</h2>
-      {projects
-        .filter(p => !selectedCategory || p.category === selectedCategory)
-        .map(p => (
-          <div
-            className="project-card"
-            key={p.id}
-            onClick={() => navigate(`/projects/${p.id}`)}
-            style={{ cursor: 'pointer' }}
-          >
-            <h3>{p.title} <span style={{ color: '#aaa' }}>({p.category})</span></h3>
-            <p>{p.description}</p>
-          </div>
-        ))}
+      {filteredProjects.map(p => (
+        <div
+          className="project-card"
+          key={p.id}
+          onClick={() => navigate(`/projects/${p.id}`)}
+        >
+          <h3>{p.title} <span style={{ color: '#aaa' }}>({p.category})</span></h3>
+          <p>{p.description}</p>
+        </div>
+      ))}
     </div>
   )
 }
