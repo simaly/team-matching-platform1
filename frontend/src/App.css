@@ -1,1 +1,168 @@
-body{font-family:sans-serif;background:#f5f5f5}.container{max-width:800px;margin:auto;padding:2rem;background:white;border-radius:8px}.project-card{border-left:5px solid #007bff;margin:1rem 0;padding:1rem;background:#f0f0f0;border-radius:4px}
+/* === ORTAK === */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* === FORM === */
+input, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+select {
+  width: 40%;
+  min-width: 240px;
+  max-width: 500px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  display: block;
+  margin: 0 0 1rem 0; /* sola hizalı */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 0.75rem 1.4rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* === KARTLAR === */
+.project-card {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  border-left: 5px solid #007bff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+}
+
+.project-card h3 {
+  margin: 0 0 0.5rem;
+}
+
+/* === BAŞVURULAR === */
+.application-item {
+  padding: 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+}
+
+/* === LIGHT === */
+body.light {
+  background-color: #f5f7fa;
+  color: #222;
+}
+
+body.light .container {
+  background-color: #ffffff;
+}
+
+body.light input,
+body.light textarea,
+body.light select {
+  background-color: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+body.light .project-card {
+  background-color: #f9f9f9;
+}
+
+body.light .project-card h3 {
+  color: #007bff;
+}
+
+body.light .application-item {
+  background-color: #eaeaea;
+  color: #222;
+}
+
+/* === DARK === */
+body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark .container {
+  background-color: #1e1e1e;
+}
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark .project-card {
+  background-color: #2a2a2a;
+  border-left: 5px solid #00bfff;
+}
+
+body.dark .project-card h3 {
+  color: #00bfff;
+}
+
+body.dark .application-item {
+  background-color: #333;
+  color: #f1f1f1;
+}
+
+/* === MOBİL === */
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  select {
+    width: 100%;
+  }
+}

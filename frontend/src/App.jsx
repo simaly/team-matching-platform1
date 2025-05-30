@@ -7,8 +7,20 @@ import axios from 'axios'
 const API_BASE = 'https://team-matching-backend.onrender.com'
 
 function App() {
+  const [darkMode, setDarkMode] = useState(true)
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark' : 'light'
+  }, [darkMode])
+
   return (
     <div className="container">
+      <div style={{ textAlign: 'right', marginBottom: '1rem' }}>
+        <button onClick={() => setDarkMode(!darkMode)}>
+          Switch to {darkMode ? 'Light' : 'Dark'} Mode
+        </button>
+      </div>
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/projects/:id" element={<ProjectDetails />} />
@@ -25,6 +37,7 @@ function MainPage() {
   const [creatorId, setCreatorId] = useState('')
   const [category, setCategory] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [userInterest, setUserInterest] = useState('')
 
   const fetchProjects = async () => {
     const res = await axios.get(`${API_BASE}/projects`)
@@ -49,22 +62,81 @@ function MainPage() {
     fetchProjects()
   }, [])
 
+  const recommendedProjects = projects.filter(
+    (p) =>
+      userInterest &&
+      p.category &&
+      p.category.toLowerCase().includes(userInterest.toLowerCase())
+  )
+
   return (
     <div>
       <h1>Team Matching Platform</h1>
-      <input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} /><br />
-      <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} /><br />
-      <input placeholder="Creator ID" value={creatorId} onChange={e => setCreatorId(e.target.value)} /><br />
-      <select value={category} onChange={e => setCategory(e.target.value)}>
+
+      <h2>Your Interest Area</h2>
+      <select
+        value={userInterest}
+        onChange={e => setUserInterest(e.target.value)}
+      >
+        <option value="">Select your interest</option>
+        <option value="AI">AI</option>
+        <option value="Web">Web</option>
+        <option value="Game">Game</option>
+      </select>
+
+      {userInterest && (
+        <div>
+          <h2>Recommended Projects for You</h2>
+          {recommendedProjects.length > 0 ? (
+            recommendedProjects.map(p => (
+              <div
+                className="project-card"
+                key={p.id}
+                onClick={() => navigate(`/projects/${p.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <h3>{p.title} <span style={{ color: '#aaa' }}>({p.category})</span></h3>
+                <p>{p.description}</p>
+              </div>
+            ))
+          ) : (
+            <p>No matching projects found.</p>
+          )}
+        </div>
+      )}
+
+      <h2>Create Project</h2>
+      <input
+        placeholder="Title"
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+      />
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+      />
+      <input
+        placeholder="Creator User ID"
+        value={creatorId}
+        onChange={e => setCreatorId(e.target.value)}
+      />
+      <select
+        value={category}
+        onChange={e => setCategory(e.target.value)}
+      >
         <option value="">Select Category</option>
         <option value="AI">AI</option>
         <option value="Web">Web</option>
         <option value="Game">Game</option>
-      </select><br />
+      </select>
       <button onClick={handleSubmit}>Add Project</button>
 
       <h2>Filter by Category</h2>
-      <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
+      <select
+        value={selectedCategory}
+        onChange={e => setSelectedCategory(e.target.value)}
+      >
         <option value="">All</option>
         <option value="AI">AI</option>
         <option value="Web">Web</option>
@@ -75,8 +147,13 @@ function MainPage() {
       {projects
         .filter(p => !selectedCategory || p.category === selectedCategory)
         .map(p => (
-          <div className="project-card" key={p.id} onClick={() => navigate(`/projects/${p.id}`)} style={{ cursor: 'pointer' }}>
-            <h3>{p.title} <span style={{ color: '#666' }}>({p.category})</span></h3>
+          <div
+            className="project-card"
+            key={p.id}
+            onClick={() => navigate(`/projects/${p.id}`)}
+            style={{ cursor: 'pointer' }}
+          >
+            <h3>{p.title} <span style={{ color: '#aaa' }}>({p.category})</span></h3>
             <p>{p.description}</p>
           </div>
         ))}
