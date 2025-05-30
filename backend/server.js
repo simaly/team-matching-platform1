@@ -100,6 +100,10 @@ app.get('/applications', (req, res) => {
 });
 
 // ✅ Backend çalıştır
+app.get('/', (req, res) => {
+  res.send('Backend is working');
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Backend is working: http://localhost:${PORT}`);
 });
